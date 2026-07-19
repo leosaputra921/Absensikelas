@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Presensi Siswa</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="presensi.css">
+
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">
+        <i class="fa-solid fa-school"></i>
+        <h2>Presensi</h2>
+    </div>
+
+    <ul>
+        <li class="active"><a href="#dashboard"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+        <li><a href="#dataSiswa"><i class="fa-solid fa-users"></i>Data Siswa</a></li>
+        <li><a href="#dataKelas"><i class="fa-solid fa-chalkboard"></i>Data Kelas</a></li>
+        <li><a href="#presensi"><i class="fa-solid fa-user-check"></i>Presensi</a></li>
+        <li><a href="#export"><i class="fa-solid fa-file-export"></i>Export</a></li>
+        <li><a href="#" id="logoutLink"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+    </ul>
+</div>
+
+<div class="main" id="dashboard">
+    <header>
+        <div>
+            <p class="sub-title">Sistem Absensi Digital</p>
+            <h1>Dashboard Presensi Siswa</h1>
+        </div>
+
+        <div class="profile">
+            <i class="fa-solid fa-user-circle"></i>
+            <span>Administrator</span>
+        </div>
+    </header>
+
+    <section class="cards">
+        <div class="card">
+            <i class="fa-solid fa-users"></i>
+            <h2 id="totalSiswa">0</h2>
+            <p>Total Siswa</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-school"></i>
+            <h2 id="totalKelas">0</h2>
+            <p>Total Kelas</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-user-check"></i>
+            <h2 id="hadirCount">0</h2>
+            <p>Hadir Hari Ini</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-user-xmark"></i>
+            <h2 id="tidakHadirCount">0</h2>
+            <p>Tidak Hadir</p>
+        </div>
+    </section>
+
+    <section class="toolbar" id="export">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Cari nama, NIS, atau kelas...">
+        </div>
+
+        <div class="toolbar-actions">
+            <button type="button" id="exportBtn" class="secondary-btn">
+                <i class="fa-solid fa-file-export"></i>
+                Export Excel
+            </button>
+            <button type="button" id="resetBtn" class="danger-btn">
+                <i class="fa-solid fa-trash"></i>
+                Reset Data
+            </button>
+        </div>
+    </section>
+
+    <section class="summary-grid" id="dataKelas">
+        <div class="summary-card"><span class="dot hadir"></span><strong id="statHadir">0</strong> Hadir</div>
+        <div class="summary-card"><span class="dot izin"></span><strong id="statIzin">0</strong> Izin</div>
+        <div class="summary-card"><span class="dot sakit"></span><strong id="statSakit">0</strong> Sakit</div>
+        <div class="summary-card"><span class="dot alpha"></span><strong id="statAlpha">0</strong> Alpha</div>
+    </section>
+
+    <section class="form-container" id="presensi">
+        <h2>Input Presensi</h2>
+        <div id="message" class="message"></div>
+
+        <div class="qr-scan-panel">
+            <div>
+                <h3>Scan QR Siswa</h3>
+                <p>Gunakan kamera untuk memindai kode QR siswa lalu data akan otomatis terisi.</p>
+            </div>
+            <button type="button" id="scanQrBtn" class="secondary-btn">
+                <i class="fa-solid fa-qrcode"></i>
+                Buka Scanner QR
+            </button>
+        </div>
+
+        <div id="reader" class="reader-box"></div>
+
+        <form id="presensiForm">
+            <div class="input-group">
+                <label for="nama">Nama Siswa</label>
+                <input type="text" id="nama" placeholder="Masukkan Nama" required>
+            </div>
+
+            <div class="input-group">
+                <label for="nis">NIS</label>
+                <input type="text" id="nis" placeholder="Masukkan NIS" required>
+            </div>
+
+            <div class="input-group">
+                <label for="kelas">Kelas</label>
+                <select id="kelas">
+                    <option>IPA 1</option>
+                    <option>IPA 2</option>
+                    <option>IPA 3</option>
+                    <option>IPA 4</option>
+                    <option>IPA 5</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="tanggal">Tanggal</label>
+                <input type="date" id="tanggal" required>
+            </div>
+
+            <div class="input-group">
+                <label for="bulan">Bulan</label>
+                <select id="bulan">
+                    <option>Januari</option>
+                    <option>Februari</option>
+                    <option>Maret</option>
+                    <option>April</option>
+                    <option>Mei</option>
+                    <option>Juni</option>
+                    <option>Juli</option>
+                    <option>Agustus</option>
+                    <option>September</option>
+                    <option>Oktober</option>
+                    <option>November</option>
+                    <option>Desember</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="status">Status</label>
+                <select id="status">
+                    <option>Hadir</option>
+                    <option>Izin</option>
+                    <option>Sakit</option>
+                    <option>Alpha</option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-btn">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Simpan Presensi
+            </button>
+        </form>
+    </section>
+
+    <section class="table-container" id="dataSiswa">
+        <h2>Data Presensi Hari Ini</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIS</th>
+                    <th>Kelas</th>
+                    <th>Tanggal</th>
+                    <th>Bulan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </section>
+</div>
+
+<div class="qr-modal" id="qrModal">
+    <div class="qr-modal-card">
+        <button type="button" class="modal-close" id="closeQrModal" aria-label="Tutup QR">×</button>
+        <h3>QR Siswa</h3>
+        <div id="qrCode" class="qr-code-box"></div>
+        <p id="qrStudentInfo" class="qr-student-info"></p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
